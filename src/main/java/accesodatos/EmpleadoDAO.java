@@ -1,10 +1,10 @@
 package accesodatos;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+//import java.io.BufferedReader;
+//import java.io.DataOutputStream;
+//import java.io.FileOutputStream;
+//import java.io.FileReader;
+//import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,37 +15,9 @@ import java.util.List;
 import conexion.ConexionBD;
 import excepciones.DatosNoCorrectosException;
 import modelo.Empleado;
-import modelo.Nomina;
+//import modelo.Nomina;
 
 public class EmpleadoDAO {
-
-	public int altaEmpleado(Empleado empl) {
-
-		String sql = "INSERT INTO EMPLEADOS (nombre, dni, sexo, categoria, antiguedad) VALUES ('" + empl.getNombre()
-				+ "', '" + empl.getDni() + "', '" + empl.getSexo() + "', " + empl.getCategoria() + ", "
-				+ empl.getAnyosTrabajados() + ")";
-
-		try (Connection con = ConexionBD.getConnection(); Statement st = con.createStatement()) {
-
-			return st.executeUpdate(sql);
-
-		} catch (SQLException e) {
-			System.out.println(e);
-			return 0;
-		}
-	}
-
-	public int altaEmpleado(String rutaArchivo) throws DatosNoCorrectosException {
-
-		List<Empleado> empleados = generarEmpleados(rutaArchivo);
-		int cont = 0;
-
-		for (Empleado empl : empleados) {
-			cont += altaEmpleado(empl);
-		}
-
-		return cont;
-	}
 
 	public boolean actualizarEmpleado(String dni, String nombre, String sexo, Integer categoria, Integer antiguedad)
 			throws DatosNoCorrectosException {
@@ -143,6 +115,25 @@ public class EmpleadoDAO {
 
 	}
 
+	public int modificarEmpleado(String dni, String campo, String valor) {
+
+		if (campo.equalsIgnoreCase("nombre") || campo.equalsIgnoreCase("sexo")) {
+			valor = "'" + valor + "'";
+		}
+
+		String sql = "UPDATE EMPLEADOS SET " + campo + " = " + valor + " WHERE DNI = '" + dni + "'";
+
+		try (Connection con = ConexionBD.getConnection(); Statement st = con.createStatement()) {
+
+			return st.executeUpdate(sql);
+
+		} catch (SQLException e) {
+			System.out.println(e);
+			return 0;
+		}
+
+	}
+
 	public Empleado obtenerEmpleado(String dni) throws DatosNoCorrectosException {
 
 		Empleado empl = null;
@@ -170,77 +161,86 @@ public class EmpleadoDAO {
 
 	}
 
-	public int modificarEmpleado(String dni, String campo, String valor) {
+//	public int altaEmpleado(Empleado empl) {
+//
+//		String sql = "INSERT INTO EMPLEADOS (nombre, dni, sexo, categoria, antiguedad) VALUES ('" + empl.getNombre()
+//				+ "', '" + empl.getDni() + "', '" + empl.getSexo() + "', " + empl.getCategoria() + ", "
+//				+ empl.getAnyosTrabajados() + ")";
+//
+//		try (Connection con = ConexionBD.getConnection(); Statement st = con.createStatement()) {
+//
+//			return st.executeUpdate(sql);
+//
+//		} catch (SQLException e) {
+//			System.out.println(e);
+//			return 0;
+//		}
+//	}
+//
+//	public int altaEmpleado(String rutaArchivo) throws DatosNoCorrectosException {
+//
+//		List<Empleado> empleados = generarEmpleados(rutaArchivo);
+//		int cont = 0;
+//
+//		for (Empleado empl : empleados) {
+//			cont += altaEmpleado(empl);
+//		}
+//
+//		return cont;
+//	}
 
-		if (campo.equalsIgnoreCase("nombre") || campo.equalsIgnoreCase("sexo")) {
-			valor = "'" + valor + "'";
-		}
+//	public void generarCopiaSeguridad(String nombreArchivo) throws DatosNoCorrectosException {
+//
+//		List<Empleado> empleados = obtenerEmpleados();
+//
+//		try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(nombreArchivo))) {
+//
+//			dos.writeUTF("DNI,nombre,sexo,categoria,antiguedad,sueldo\n");
+//
+//			for (Empleado empl : empleados) {
+//				String linea = empl.getDni() + "," + empl.getNombre() + "," + empl.getSexo() + "," + empl.getCategoria()
+//						+ "," + empl.getAnyosTrabajados() + Nomina.sueldo(empl) + "\n";
+//				dos.writeUTF(linea);
+//			}
+//
+//			System.out.println("Archivo " + nombreArchivo + " generado con éxito");
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
-		String sql = "UPDATE EMPLEADOS SET " + campo + " = " + valor + " WHERE DNI = '" + dni + "'";
-
-		try (Connection con = ConexionBD.getConnection(); Statement st = con.createStatement()) {
-
-			return st.executeUpdate(sql);
-
-		} catch (SQLException e) {
-			System.out.println(e);
-			return 0;
-		}
-
-	}
-
-	public void generarCopiaSeguridad(String nombreArchivo) throws DatosNoCorrectosException {
-
-		List<Empleado> empleados = obtenerEmpleados();
-
-		try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(nombreArchivo))) {
-
-			dos.writeUTF("DNI,nombre,sexo,categoria,antiguedad,sueldo\n");
-
-			for (Empleado empl : empleados) {
-				String linea = empl.getDni() + "," + empl.getNombre() + "," + empl.getSexo() + "," + empl.getCategoria()
-						+ "," + empl.getAnyosTrabajados() + Nomina.sueldo(empl) + "\n";
-				dos.writeUTF(linea);
-			}
-
-			System.out.println("Archivo " + nombreArchivo + " generado con éxito");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private List<Empleado> generarEmpleados(String rutaArchivo) throws DatosNoCorrectosException {
-
-		List<String> lineas = new ArrayList<>();
-		List<Empleado> empleados = new ArrayList<>();
-
-		try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
-
-			String linea;
-
-			while (true) {
-				linea = br.readLine();
-				if (linea != null) {
-					lineas.add(linea);
-				} else {
-					break;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		for (String linea : lineas) {
-			String[] datos = linea.split(", ");
-			Empleado empl = new Empleado(datos[0], datos[1], datos[2].charAt(0),
-					datos[3].equals("null") ? 1 : Integer.parseInt(datos[3]),
-					datos[4].equals("null") ? 0 : Integer.parseInt(datos[4]));
-			empleados.add(empl);
-		}
-
-		return empleados;
-
-	}
+//	private List<Empleado> generarEmpleados(String rutaArchivo) throws DatosNoCorrectosException {
+//
+//		List<String> lineas = new ArrayList<>();
+//		List<Empleado> empleados = new ArrayList<>();
+//
+//		try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+//
+//			String linea;
+//
+//			while (true) {
+//				linea = br.readLine();
+//				if (linea != null) {
+//					lineas.add(linea);
+//				} else {
+//					break;
+//				}
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		for (String linea : lineas) {
+//			String[] datos = linea.split(", ");
+//			Empleado empl = new Empleado(datos[0], datos[1], datos[2].charAt(0),
+//					datos[3].equals("null") ? 1 : Integer.parseInt(datos[3]),
+//					datos[4].equals("null") ? 0 : Integer.parseInt(datos[4]));
+//			empleados.add(empl);
+//		}
+//
+//		return empleados;
+//
+//	}
 
 }

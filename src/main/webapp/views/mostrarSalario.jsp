@@ -63,7 +63,7 @@ a:hover {
 	<p>
 		Salario: <strong>${salario != null ? salario : "No Encontrado"} ${salario != null ? " u.m." : "" }</strong>
 	</p>
-	<button onclick="location.href='empresa?opcion=buscarSalario'">Buscar
+	<button onclick="location.href='empresa?opcion=buscarSalario'">Buscar otro
 		DNI</button>
 	<a href="empresa?opcion=inicio">Volver al Inicio</a>
 </body>

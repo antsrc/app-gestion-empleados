@@ -53,11 +53,21 @@ button:hover {
 </style>
 </head>
 <body>
+	<%
+	String mensaje = (String) request.getAttribute("mensaje");
+	%>
 	<h1>Error</h1>
 	<p>
-		Causa: <strong><%=request.getAttribute("mensaje") != null ? request.getAttribute("mensaje") : "Error desconocido"%></strong>
+		Causa: <strong><%=mensaje != null ? mensaje : "Error desconocido"%></strong>
 	</p>
+
+	<%
+	if ("Datos no soportados".equals(mensaje)) {
+	%>
 	<button onclick="window.history.back()">Intentar de nuevo</button>
+	<%
+}
+%>
 	<a href="empresa?opcion=inicio">Volver al Inicio</a>
 </body>
 </html>

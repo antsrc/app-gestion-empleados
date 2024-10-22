@@ -71,8 +71,6 @@ a:hover {
 			name="dni" required> <input type="hidden" name="opcion"
 			value="mostrarSalario"> <input type="submit" value="Buscar">
 	</form>
-	<button onclick="location.href='empresa?opcion=buscarSalario'">Intentar
-		de nuevo</button>
 	<a href="empresa?opcion=inicio">Volver al Inicio</a>
 </body>
 </html>

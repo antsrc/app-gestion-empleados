@@ -83,9 +83,31 @@ button {
 button:hover {
 	background-color: #2980b9;
 }
+
+.exito {
+	background-color: #d4edda;
+	color: #155724;
+	padding: 10px;
+	border: 1px solid #c3e6cb;
+	border-radius: 5px;
+}
+
+.sinResultado {
+	background-color: #f8d7da;
+	color: #721c24; 
+	padding: 10px;
+	border: 1px solid #f5c6cb; 
+	border-radius: 5px;
+}
 </style>
 </head>
 <body>
+	<c:if test="${'true' == param.exito}">
+		<p class="exito">El empleado se actualizó correctamente.</p>
+	</c:if>
+	<c:if test="${empty empleados}">
+		<p class="sinResultado">No se encontraron empleados</p>
+	</c:if>
 	<h1>Lista de Empleados</h1>
 
 	<table>
