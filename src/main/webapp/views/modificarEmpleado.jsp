@@ -79,7 +79,6 @@ a:hover {
 			id="nombre" value="<%=empleado.getNombre()%>" required><br>
 		<br> <label for="sexo">Sexo:</label> <select name="sexo"
 			id="sexo">
-			<option value="" <%=empleado.getSexo() == ' ' ? "selected" : ""%>>Cualquiera</option>
 			<option value="M" <%=empleado.getSexo() == 'M' ? "selected" : ""%>>Masculino</option>
 			<option value="F" <%=empleado.getSexo() == 'F' ? "selected" : ""%>>Femenino</option>
 		</select><br> <br> <label for="categoria">Categoría:</label> <input

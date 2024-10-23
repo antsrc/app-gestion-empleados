@@ -20,7 +20,7 @@ h1 {
 p {
 	text-align: center;
 	font-weight: bold;
-	color: #e74c3c; /* Color para el mensaje de error */
+	color: #e74c3c;
 }
 
 a {

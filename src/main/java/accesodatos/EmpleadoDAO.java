@@ -115,24 +115,6 @@ public class EmpleadoDAO {
 
 	}
 
-	public int modificarEmpleado(String dni, String campo, String valor) {
-
-		if (campo.equalsIgnoreCase("nombre") || campo.equalsIgnoreCase("sexo")) {
-			valor = "'" + valor + "'";
-		}
-
-		String sql = "UPDATE EMPLEADOS SET " + campo + " = " + valor + " WHERE DNI = '" + dni + "'";
-
-		try (Connection con = ConexionBD.getConnection(); Statement st = con.createStatement()) {
-
-			return st.executeUpdate(sql);
-
-		} catch (SQLException e) {
-			System.out.println(e);
-			return 0;
-		}
-
-	}
 
 	public Empleado obtenerEmpleado(String dni) throws DatosNoCorrectosException {
 
@@ -187,6 +169,25 @@ public class EmpleadoDAO {
 //		}
 //
 //		return cont;
+//	}
+	
+//	public int modificarEmpleado(String dni, String campo, String valor) {
+//
+//		if (campo.equalsIgnoreCase("nombre") || campo.equalsIgnoreCase("sexo")) {
+//			valor = "'" + valor + "'";
+//		}
+//
+//		String sql = "UPDATE EMPLEADOS SET " + campo + " = " + valor + " WHERE DNI = '" + dni + "'";
+//
+//		try (Connection con = ConexionBD.getConnection(); Statement st = con.createStatement()) {
+//
+//			return st.executeUpdate(sql);
+//
+//		} catch (SQLException e) {
+//			System.out.println(e);
+//			return 0;
+//		}
+//
 //	}
 
 //	public void generarCopiaSeguridad(String nombreArchivo) throws DatosNoCorrectosException {

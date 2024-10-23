@@ -103,7 +103,7 @@ button:hover {
 </head>
 <body>
 	<c:if test="${'true' == param.exito}">
-		<p class="exito">El empleado se actualizó correctamente.</p>
+		<p class="exito">El empleado se actualizó correctamente</p>
 	</c:if>
 	<c:if test="${empty empleados}">
 		<p class="sinResultado">No se encontraron empleados</p>

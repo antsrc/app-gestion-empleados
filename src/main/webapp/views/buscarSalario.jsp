@@ -44,6 +44,7 @@ input[type="submit"] {
 	padding: 10px 15px;
 	cursor: pointer;
 	transition: background-color 0.3s;
+	margin-top: 10px;
 }
 
 input[type="submit"]:hover {
