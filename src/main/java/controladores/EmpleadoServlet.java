@@ -13,13 +13,8 @@ import accesodatos.EmpleadoDAO;
 import excepciones.DatosNoCorrectosException;
 import modelo.Empleado;
 
-@WebServlet("/empresa")
+@WebServlet("/empleados")
 public class EmpleadoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	public EmpleadoServlet() {
-		super();
-	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,15 +22,15 @@ public class EmpleadoServlet extends HttpServlet {
 		String opcion = request.getParameter("opcion");
 
 		if ("mostrarEmpleados".equals(opcion)) {
-		    mostrarEmpleados(request, response);
+			mostrarEmpleados(request, response);
 		} else if ("buscarSalario".equals(opcion)) {
-		    buscarSalario(request, response);
+			buscarSalario(request, response);
 		} else if ("buscarEmpleados".equals(opcion)) {
-		    buscarEmpleados(request, response);
+			buscarEmpleados(request, response);
 		} else if ("inicio".equals(opcion)) {
-		    inicio(response);
+			inicio(response);
 		} else {
-		    paginaNoEncontrada(request, response);
+			paginaNoEncontrada(request, response);
 		}
 	}
 
@@ -45,15 +40,15 @@ public class EmpleadoServlet extends HttpServlet {
 		String opcion = request.getParameter("opcion");
 
 		if ("enviarCambios".equals(opcion)) {
-		    enviarCambios(request, response);
+			enviarCambios(request, response);
 		} else if ("modificarEmpleado".equals(opcion)) {
-		    modificarEmpleado(request, response);
+			modificarEmpleado(request, response);
 		} else if ("mostrarEmpleadosFiltrados".equals(opcion)) {
-		    mostrarEmpleadosFiltrados(request, response);
+			mostrarEmpleadosFiltrados(request, response);
 		} else if ("mostrarSalario".equals(opcion)) {
-		    mostrarSalario(request, response);
+			mostrarSalario(request, response);
 		} else {
-		    paginaNoEncontrada(request, response);
+			paginaNoEncontrada(request, response);
 
 		}
 	}
@@ -152,8 +147,9 @@ public class EmpleadoServlet extends HttpServlet {
 		EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 
 		try {
-			if (empleadoDAO.actualizarEmpleado(dni, nombre, sexo, categoria, antiguedad)) {
-				response.sendRedirect("empresa?opcion=mostrarEmpleados&exito=true");
+			int filasAfectadas = empleadoDAO.actualizarEmpleado(dni, nombre, sexo, categoria, antiguedad);
+			if (filasAfectadas > 0) {
+				response.sendRedirect("empleados?opcion=mostrarEmpleados&exito=true");
 			} else {
 				request.setAttribute("mensaje", "Datos no soportados");
 				request.getRequestDispatcher("/views/error.jsp").forward(request, response);
@@ -166,8 +162,9 @@ public class EmpleadoServlet extends HttpServlet {
 	private void inicio(HttpServletResponse response) throws IOException {
 		response.sendRedirect("index.jsp");
 	}
-	
-	private void paginaNoEncontrada(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	private void paginaNoEncontrada(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setAttribute("mensaje", "Página no encontrada");
 		request.getRequestDispatcher("/views/error.jsp").forward(request, response);
 	}

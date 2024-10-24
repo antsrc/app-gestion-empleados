@@ -19,18 +19,18 @@ import modelo.Empleado;
 
 public class EmpleadoDAO {
 
-	public boolean actualizarEmpleado(String dni, String nombre, String sexo, Integer categoria, Integer antiguedad)
+	public Integer actualizarEmpleado(String dni, String nombre, String sexo, Integer categoria, Integer antiguedad)
 			throws DatosNoCorrectosException {
 		String sql = "UPDATE EMPLEADOS SET nombre = '" + nombre + "', sexo = '" + sexo + "', categoria = " + categoria
 				+ ", antiguedad = " + antiguedad + " WHERE dni = '" + dni + "'";
 
 		try (Connection con = ConexionBD.getConnection(); Statement st = con.createStatement()) {
-			st.executeUpdate(sql);
+			return st.executeUpdate(sql);
 		} catch (SQLException e) {
-			return false;
+			System.out.println(e);
+			return -1;
 		}
 
-		return true;
 	}
 
 	public List<Empleado> obtenerEmpleados() throws DatosNoCorrectosException {
@@ -115,7 +115,6 @@ public class EmpleadoDAO {
 
 	}
 
-
 	public Empleado obtenerEmpleado(String dni) throws DatosNoCorrectosException {
 
 		Empleado empl = null;
@@ -170,7 +169,7 @@ public class EmpleadoDAO {
 //
 //		return cont;
 //	}
-	
+
 //	public int modificarEmpleado(String dni, String campo, String valor) {
 //
 //		if (campo.equalsIgnoreCase("nombre") || campo.equalsIgnoreCase("sexo")) {
