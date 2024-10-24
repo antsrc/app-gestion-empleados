@@ -12,10 +12,10 @@ Empleado empleado = (Empleado) request.getAttribute("empleado");
 	<h1>Modificar Empleado</h1>
 
 	<form action="empleados" method="post">
-		<input type="hidden" name="dni" value="<%=empleado.getDni()%>">
-
-		<label for="nombre">Nombre:</label> <input type="text" name="nombre"
-			id="nombre" value="<%=empleado.getNombre()%>" required><br>
+		<label for="dni">DNI:</label> <input class="soloLectura" type="text"
+			name="dni" id="dni" value="<%=empleado.getDni()%>" readonly><br>
+		<br> <label for="nombre">Nombre:</label> <input type="text"
+			name="nombre" id="nombre" value="<%=empleado.getNombre()%>" required><br>
 		<br> <label for="sexo">Sexo:</label> <select name="sexo"
 			id="sexo">
 			<option value="M" <%=empleado.getSexo() == 'M' ? "selected" : ""%>>Masculino</option>
